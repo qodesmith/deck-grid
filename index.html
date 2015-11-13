@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>deck_grid</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="grid"></div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item" id="pole">4x4</div>
+    <div class="legend-item" id="delete">Delete O or L</div>
+    <div class="legend-item" id="create-length">Create Length</div>
+    <div class="legend-item" id="create-object">Create Object</div>
+    <div class="legend-item" id="beam-top">Beam Top</div>
+    <div class="legend-item" id="beam-bottom">Beam Bottom</div>
+    <div class="legend-item" id="double-top">Double Top</div>
+    <div class="legend-item" id="double-beam">Double Beam</div>
+    <div class="legend-item" id="double-bottom">Double Bottom</div>
+    <div class="legend-item" id="reset">Reset</div>
+    <div class="legend-item" id="save-layout">Save Layout</div>
+    <div class="legend-item" id="load-layout">Load Layout</div>
+  </div>
+
+  <!-- SAVE -->
+  <div class="save-layout-modal-bg">
+    <div class="save-layout-modal">
+      <div class="save-layout-modal-close">&times;</div>
+      <h2>Save layout to a text file</h2>
+      <textarea name="" id="view-JSON" cols="60" rows="8"></textarea>
+      <button id="save-button">SAVE</button>
+      <a download="deck.txt" id="download-link">Download</a>
+    </div>
+  </div>
+
+  <!-- LOAD -->
+  <div class="load-layout-modal-bg">
+    <div class="load-layout-modal">
+      <div class="load-layout-modal-close">&times;</div>
+      <textarea name="" id="paste-JSON" cols="70" rows="12"></textarea>
+      <button id="import-button">IMPORT FILE</button>
+      <input type="file" id="import"></input>
+      <button id="load">LOAD</button>
+      <div id="load-error"></div>
+    </div>
+  </div>
+
+  <!-- CREATE LENGTH -->
+  <div class="create-length-modal-bg">
+    <div class="create-length-modal">
+      <div class="create-length-modal-close">&times;</div>
+      <h2>Length in feet:</h2>
+      <input type="number" id="length-feet">
+      <h2>Length in inches:</h2>
+      <input type="number" id="length-inches">
+      <h2>Vertical or horizontal?</h2>
+      <div class="radios">
+        <input type="radio" name="direction" value="horizontal">Horizontal
+        <input type="radio" name="direction" value="vertical">Vertical<br>
+      </div>
+      <button id="create-len">Create</button>
+      <div id="error"></div>
+    </div>
+  </div>
+
+  <!-- CREATE OBJECT -->
+  <div class="create-obj-modal-bg">
+    <div class="create-obj-modal">
+      <div class="create-obj-modal-close">&times;</div>
+      <h2>Length feet: <input type="number" id="obj-length-feet"></h2>
+      <h2>Length inches: <input type="number" id="obj-length-inches"></h2>
+      <h2>Width feet: <input type="number" id="obj-width-feet"></h2>
+      <h2>Width inches: <input type="number" id="obj-width-inches"></h2>
+      <button id="create-obj">Create</button>
+    </div>
+  </div>
+</body>
+</html>
