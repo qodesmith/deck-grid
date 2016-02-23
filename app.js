@@ -19,10 +19,10 @@ function saveLayout() { // http://goo.gl/DwUxmp
     return textFile;
   }
 
-  var save = document.querySelector('#save-button');
-
   tracker.listeners.saveClick = function(e) {
+    // Scope this listener to just the save button.
     if(e.target.id !== 'save-button') return;
+
     // Store all length pieces.
     var lengthsObj = {lengths: []};
     var lengths = document.querySelectorAll('.length');
@@ -572,9 +572,3 @@ for(var i = 0; i < 6400; i++) {
 document.querySelector('input[name="direction"]').checked = true;
 
 saveLayout();
-
-
-var x = Object.keys(tracker.listeners);
-x.map(function(z) {
-  console.log(z);
-});
