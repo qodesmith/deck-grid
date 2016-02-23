@@ -1,5 +1,5 @@
 // Object for tracking pieces to save and other things.
-var tracker = {squares: [], lengthMoving: false, objectMoving: false};
+var tracker = {squares: [], lengthMoving: false, objectMoving: false, listeners: {}};
 
 // Object for tracking pieces for multiple draws.
 // Hold down the alt / option key, and click 2 points on the board.
@@ -18,43 +18,46 @@ function saveLayout() { // http://goo.gl/DwUxmp
 
     return textFile;
   }
+
+  var save = document.querySelector('#save-button');
+
+  save.addEventListener('click', tracker.listeners.saveClick, false);
+  tracker.listeners.saveClick = function() {
+    // Store all length pieces.
+    var lengthsObj = {lengths: []};
+    var lengths = document.querySelectorAll('.length');
+    for(var j = 0; j < lengths.length; j++) {
+      lengthsObj.lengths.push(lengths[j].outerHTML);
+    }
+
+    // Store all objects.
+    var objectsObj = {objects: []};
+    var objects = document.querySelectorAll('.object');
+    for(var k = 0; k < objects.length; k++) {
+      objectsObj.objects.push(objects[k].outerHTML);
+    }
+
+    // Clean up the 'tracker.squares' array.
+    var tempArray = [];
+    for(var i = 0; i < tracker.squares.length; i++) {
+      if(tracker.squares[i] !== null) tempArray.push(tracker.squares[i]);
+    }
+
+    tempArray.push(lengthsObj);
+    tempArray.push(objectsObj);
+
+    // Contents of the file.
+    var layout = JSON.stringify(tempArray);
+
+    // Hide the save button.
+    save.style.display = 'none';
+
+    // Show the download button
+    var link = document.querySelector('#download-link');
+    link.href = makeTextFile(layout);
+    link.style.display = 'block';
+  };
 }
-document.querySelector('#save-button').addEventListener('click', saveClick, false);
-function saveClick() {
-  // Store all length pieces.
-  var lengthsObj = {lengths: []};
-  var lengths = document.querySelectorAll('.length');
-  for(var j = 0; j < lengths.length; j++) {
-    lengthsObj.lengths.push(lengths[j].outerHTML);
-  }
-
-  // Store all objects.
-  var objectsObj = {objects: []};
-  var objects = document.querySelectorAll('.object');
-  for(var k = 0; k < objects.length; k++) {
-    objectsObj.objects.push(objects[k].outerHTML);
-  }
-
-  // Clean up the 'tracker.squares' array.
-  var tempArray = [];
-  for(var i = 0; i < tracker.squares.length; i++) {
-    if(tracker.squares[i] !== null) tempArray.push(tracker.squares[i]);
-  }
-
-  tempArray.push(lengthsObj);
-  tempArray.push(objectsObj);
-
-  // Contents of the file.
-  var layout = JSON.stringify(tempArray);
-
-  // Hide the save button.
-  save.style.display = 'none';
-
-  // Show the download button
-  var link = document.querySelector('#download-link');
-  link.href = makeTextFile(layout);
-  link.style.display = 'block';
-};
 
 // Process individual squares.
 function processSquare(el) {
@@ -160,8 +163,8 @@ function clearBoard() {
 
 // Alt & Enter keys.
 // Hold down the alt / option key, and click 2 points on the board.
-document.body.addEventListener('keydown', keydown);
-function keydown(e) {
+document.addEventListener('keydown', tracker.listeners.keydown);
+tracker.listeners.keydown = function(e) {
   if(e.which === 18) alt.key = true;
 
   // Enter key for create modals.
@@ -174,15 +177,15 @@ function keydown(e) {
   }
 };
 
-document.body.addEventListener('keyup', keyup);
-function keyup(e) {
+document.addEventListener('keyup', tracker.listeners.keyup);
+tracker.listeners.keyup = function(e) {
   alt.pieces.length = 0; // Clear the alt-tracked pieces.
   if(e.which === 18) alt.key = false;
 };
 
 // Mouse-move for length & object pieces.
-document.body.addEventListener('mousemove', mousemove);
-function mousemove(e) {
+document.addEventListener('mousemove', tracker.listeners.mousemove);
+tracker.listeners.mousemove = function(e) {
   if(tracker.lengthMoving) {
     var el = tracker.movingEl;
   } else if(tracker.objectMoving) {
@@ -195,8 +198,8 @@ function mousemove(e) {
 };
 
 // Import file.
-document.body.addEventListener('change', change);
-function change(e) {
+document.addEventListener('change', tracker.listeners.change);
+tracker.listeners.change = function(e) {
   if(e.target.id !== 'import') return;
 
   var input = e.target;
@@ -222,8 +225,8 @@ function change(e) {
 };
 
 // Clicks.
-document.body.addEventListener('click', click);
-function click(e) {
+document.addEventListener('click', tracker.listeners.click);
+tracker.listeners.click = function(e) {
   // LEGEND ITEMS
   if(e.target.classList.contains('legend-item')) {
     // If there's a current legend item, remove its class.
@@ -492,82 +495,79 @@ function click(e) {
   e.stopPropagation();
 };
 
-window.onload = function() {
+//////////////////////
+// CREATE THE BOARD //
+//////////////////////
 
-  //////////////////////
-  // CREATE THE BOARD //
-  //////////////////////
+var row = 1;
+var col = 1;
+var grid = document.querySelector('.grid');
 
-  var row = 1;
-  var col = 1;
-  var grid = document.querySelector('.grid');
+for(var i = 0; i < 6400; i++) {
+  var square = document.createElement('div')
+  square.className = 'square';
 
-  for(var i = 0; i < 6400; i++) {
-    var square = document.createElement('div')
-    square.className = 'square';
+  // House.
+  if(col > 12 && col < 73 && row < 6) square.classList.add('house', 'structure');
 
-    // House.
-    if(col > 12 && col < 73 && row < 6) square.classList.add('house', 'structure');
+  // Chimney.
+  if(col > 40 && col < 45 && row > 5 && row < 9) square.classList.add('house', 'structure');
 
-    // Chimney.
-    if(col > 40 && col < 45 && row > 5 && row < 9) square.classList.add('house', 'structure');
+  // Garage.
+  if(col < 62 && row > 67) square.classList.add('garage', 'structure');
 
-    // Garage.
-    if(col < 62 && row > 67) square.classList.add('garage', 'structure');
+  // Neighbor's yard.
+  if(col < 13 && row < 6) square.classList.add('neighbor', 'structure');
+  if(col < 8 && row > 5 && row < 68) square.classList.add('neighbor', 'structure');
 
-    // Neighbor's yard.
-    if(col < 13 && row < 6) square.classList.add('neighbor', 'structure');
-    if(col < 8 && row > 5 && row < 68) square.classList.add('neighbor', 'structure');
+  // Grass.
+  if(col > 72 & row < 68) square.classList.add('grass', 'structure');
 
-    // Grass.
-    if(col > 72 & row < 68) square.classList.add('grass', 'structure');
+  square.classList.add('row' + row);
+  square.classList.add('col' + col);
+  square.dataset.row = row;
+  square.dataset.col = col;
 
-    square.classList.add('row' + row);
-    square.classList.add('col' + col);
-    square.dataset.row = row;
-    square.dataset.col = col;
+  col++;
+  if(col === 81) col = 1, row++;
 
-    col++;
-    if(col === 81) col = 1, row++;
-
-    grid.appendChild(square);
-  }
-
-  // Process the few angled-grass pieces.
-  (function processGrassAngles() {
-    // Angles
-    var rows = [67, 66, 65, 64, 63, 62, 61, 60, 59, 58, 57];
-    var cols = [62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72];
-
-    for(var i = 0; i < rows.length; i++) {
-      var angle = document.querySelector('.row' + rows[i] + '.col' + cols[i]);
-      angle.classList.add('angle', 'structure');
-    }
-  })();
-
-  // Fill angle-grass section.
-  (function angleGrassSection() {
-    var row = 58;
-    var col = [72];
-    var times = 10;
-
-    for(i = 0; i < col.length; i++) {
-      var square = document.querySelector('.row' + row + '.col' + col[i]);
-      square.classList.add('grass', 'structure');
-
-      if(i === col.length - 1) {
-        col.push(col[i] - 1);
-        row++;
-        i = -1;
-        times--;
-      }
-
-      if(times === 0) break;
-    }
-  })();
-
-  // Default radio button value.
-  document.querySelector('input[name="direction"]').checked = true;
-
-  saveLayout();
+  grid.appendChild(square);
 }
+
+// Process the few angled-grass pieces.
+(function processGrassAngles() {
+  // Angles
+  var rows = [67, 66, 65, 64, 63, 62, 61, 60, 59, 58, 57];
+  var cols = [62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72];
+
+  for(var i = 0; i < rows.length; i++) {
+    var angle = document.querySelector('.row' + rows[i] + '.col' + cols[i]);
+    angle.classList.add('angle', 'structure');
+  }
+})();
+
+// Fill angle-grass section.
+(function angleGrassSection() {
+  var row = 58;
+  var col = [72];
+  var times = 10;
+
+  for(i = 0; i < col.length; i++) {
+    var square = document.querySelector('.row' + row + '.col' + col[i]);
+    square.classList.add('grass', 'structure');
+
+    if(i === col.length - 1) {
+      col.push(col[i] - 1);
+      row++;
+      i = -1;
+      times--;
+    }
+
+    if(times === 0) break;
+  }
+})();
+
+// Default radio button value.
+document.querySelector('input[name="direction"]').checked = true;
+
+saveLayout();
