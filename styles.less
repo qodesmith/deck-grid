@@ -1,19 +1,17 @@
 body {
   font-family: sans-serif;
 }
+
 .grid {
   width: 80vw;
   height: 80vw;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
+  flex-wrap: wrap;
   border-left: 1px solid turquoise;
   border-top: 1px solid turquoise;
   cursor: pointer;
 }
+
 .square {
   position: relative;
   box-sizing: border-box;
@@ -22,49 +20,33 @@ body {
   width: 1vw;
   height: 1vw;
 }
+
 .instructions {
   padding: 10px;
   background: white;
   cursor: pointer;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  user-select: none;
 }
+
 .legend {
   width: 200px;
   height: 100vh;
   position: fixed;
   top: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0,0,0,0.5);
   z-index: 1;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-justify-content: space-around;
-      -ms-flex-pack: distribute;
-          justify-content: space-around;
-  -webkit-flex-direction: row;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
+
 .legend-item {
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
   width: 60px;
   height: 60px;
   margin: 10px;
@@ -74,21 +56,26 @@ body {
   position: relative;
   cursor: pointer;
 }
+
 .structure,
 .grass {
-  border-color: rgba(0, 0, 0, 0.15);
+  border-color: rgba(0,0,0,0.15);
   cursor: not-allowed;
 }
+
 .house,
 .garage {
   background: gray;
 }
+
 .neighbor {
   background: darkgray;
 }
+
 .grass {
   background: lightgreen;
 }
+
 .angle:after {
   content: '';
   border-right: .5vw solid lightgreen;
@@ -99,6 +86,7 @@ body {
   height: 0px;
   position: absolute;
 }
+
 .current-item:before {
   content: '';
   position: absolute;
@@ -108,11 +96,13 @@ body {
   left: -15px;
   border: 5px solid turquoise;
 }
+
 #pole,
 .pole {
   background: green;
   color: white;
 }
+
 #beam-top:after,
 #beam-bottom:after {
   content: '';
@@ -120,20 +110,25 @@ body {
   left: 0px;
   width: 60px;
   height: 7px;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0,0,0,0.3);
 }
+
 #beam-top:after {
   top: 0px;
 }
+
 #beam-bottom:after {
   bottom: 0px;
 }
+
 .beam-top {
   border-top: 1px solid black;
 }
+
 .beam-bottom {
   border-bottom: 1px solid black;
 }
+
 #double-team:after,
 #double-top:after,
 #double-bottom:after,
@@ -145,27 +140,33 @@ body {
   width: 60px;
   height: 60px;
   box-sizing: border-box;
-  border-left: 7px solid rgba(0, 0, 0, 0.3);
-  border-right: 7px solid rgba(0, 0, 0, 0.3);
+  border-left: 7px solid rgba(0,0,0,0.3);
+  border-right: 7px solid rgba(0,0,0,0.3);
 }
+
 #double-top:after {
-  border-top: 7px solid rgba(0, 0, 0, 0.3);
+  border-top: 7px solid rgba(0,0,0,0.3);
 }
+
 #double-bottom:after {
-  border-bottom: 7px solid rgba(0, 0, 0, 0.3);
+  border-bottom: 7px solid rgba(0,0,0,0.3);
 }
+
 .double-beam,
 .double-top,
 .double-bottom {
   border-left: 1px solid black;
   border-right: 1px solid black;
 }
+
 .double-top {
   border-top: 1px solid black;
 }
+
 .double-bottom {
   border-bottom: 1px solid black;
 }
+
 .double-beam:after,
 .double-top:after,
 .double-bottom:after {
@@ -176,6 +177,7 @@ body {
   left: 6px;
   background: black;
 }
+
 .save-layout-modal-bg,
 .load-layout-modal-bg,
 .create-length-modal-bg,
@@ -186,9 +188,10 @@ body {
   top: 0;
   left: 0;
   z-index: 3;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0,0,0,0.6);
   display: none;
 }
+
 .save-layout-modal,
 .load-layout-modal,
 .create-length-modal,
@@ -201,11 +204,11 @@ body {
   position: relative;
   margin: 0 auto;
   top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   text-align: center;
   padding: 30px;
 }
+
 .save-layout-modal-close,
 .load-layout-modal-close,
 .create-length-modal-close,
@@ -220,40 +223,40 @@ body {
   top: -14px;
   right: -14px;
   cursor: pointer;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  box-shadow: -3px 3px 5px rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+  box-shadow: -3px 3px 5px rgba(0,0,0,0.5);
   font-size: 20px;
   font-weight: bold;
 }
+
 .create-length-modal h2 {
   margin: 10px 0;
 }
+
 .create-length-modal input,
 .create-obj-modal input {
   text-align: center;
   font-size: 20px;
 }
+
 .radios {
   display: inline-block;
   text-align: left;
 }
+
 #error,
 #load-error {
   color: red;
 }
+
 textarea {
   display: block;
   margin: 0 auto;
   letter-spacing: 1px;
 }
+
 button {
   display: block;
   margin: 30px auto 10px;
@@ -261,14 +264,16 @@ button {
   cursor: pointer;
   padding: 10px 25px;
 }
+
 #download-link {
   display: none;
   margin: 30px 0;
   font-size: 16px;
 }
+
 .length,
 .object {
-  background: rgba(0, 50, 150, 0.2);
+  background: rgba(0,50,150,0.2);
   position: absolute;
   left: 50%;
   top: 50%;
@@ -278,34 +283,31 @@ button {
   cursor: pointer;
   border-left: 3px solid black;
   border-right: 3px solid black;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   cursor: all-scroll;
 }
+
 .object {
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-justify-content: space-around;
-      -ms-flex-pack: distribute;
-          justify-content: space-around;
-  background: rgba(0, 0, 0, 0.2);
+  flex-direction: column;
+  justify-content: space-around;
+  background: rgba(0,0,0,0.2);
   z-index: 1;
-  border: 3px solid rgba(255, 0, 0, 0.6);
+  border: 3px solid rgba(255,0,0,0.6);
 }
+
 .object span {
   margin: 10px;
 }
+
 .vertical {
-  -webkit-transform: translate(-50%, -50%) rotate(90deg);
-          transform: translate(-50%, -50%) rotate(90deg);
+  transform: translate(-50%, -50%) rotate(90deg);
 }
+
 #import-button {
   margin-top: 15px;
 }
+
 /* Remove the blue outline in some browsers. */
 button:focus,
 button:active:focus,
@@ -313,12 +315,14 @@ input:focus,
 input:active:focus,
 textarea:focus,
 textarea:active:focus {
-  outline: 3px solid rgba(0, 0, 0, 0.5);
+  outline: 3px solid rgba(0,0,0,0.5);
 }
+
 input[type="radio"]:focus,
 input[type="radio"]:active:focus {
   outline: none;
 }
+
 /* Hide the (ugly) file input field and use a button
 plus JavaScript to trigger the field instead. */
 input[type="file"] {
