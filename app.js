@@ -21,8 +21,8 @@ function saveLayout() { // http://goo.gl/DwUxmp
 
   var save = document.querySelector('#save-button');
 
-  save.addEventListener('click', tracker.listeners.saveClick, false);
-  tracker.listeners.saveClick = function() {
+  tracker.listeners.saveClick = function(e) {
+    if(e.target.id !== 'save-button') return;
     // Store all length pieces.
     var lengthsObj = {lengths: []};
     var lengths = document.querySelectorAll('.length');
@@ -57,6 +57,7 @@ function saveLayout() { // http://goo.gl/DwUxmp
     link.href = makeTextFile(layout);
     link.style.display = 'block';
   };
+  document.body.addEventListener('click', tracker.listeners.saveClick, false);
 }
 
 // Process individual squares.
@@ -163,7 +164,6 @@ function clearBoard() {
 
 // Alt & Enter keys.
 // Hold down the alt / option key, and click 2 points on the board.
-document.addEventListener('keydown', tracker.listeners.keydown);
 tracker.listeners.keydown = function(e) {
   if(e.which === 18) alt.key = true;
 
@@ -176,15 +176,15 @@ tracker.listeners.keydown = function(e) {
     }
   }
 };
+document.body.addEventListener('keydown', tracker.listeners.keydown);
 
-document.addEventListener('keyup', tracker.listeners.keyup);
 tracker.listeners.keyup = function(e) {
   alt.pieces.length = 0; // Clear the alt-tracked pieces.
   if(e.which === 18) alt.key = false;
 };
+document.body.addEventListener('keyup', tracker.listeners.keyup);
 
 // Mouse-move for length & object pieces.
-document.addEventListener('mousemove', tracker.listeners.mousemove);
 tracker.listeners.mousemove = function(e) {
   if(tracker.lengthMoving) {
     var el = tracker.movingEl;
@@ -196,9 +196,9 @@ tracker.listeners.mousemove = function(e) {
   el.style.top = e.pageY + 'px';
   el.style.left = e.pageX + 'px';
 };
+document.body.addEventListener('mousemove', tracker.listeners.mousemove);
 
 // Import file.
-document.addEventListener('change', tracker.listeners.change);
 tracker.listeners.change = function(e) {
   if(e.target.id !== 'import') return;
 
@@ -223,9 +223,9 @@ tracker.listeners.change = function(e) {
     error.innerText = 'Text files only please.';
   }
 };
+document.body.addEventListener('change', tracker.listeners.change);
 
 // Clicks.
-document.addEventListener('click', tracker.listeners.click);
 tracker.listeners.click = function(e) {
   // LEGEND ITEMS
   if(e.target.classList.contains('legend-item')) {
@@ -494,6 +494,7 @@ tracker.listeners.click = function(e) {
 
   e.stopPropagation();
 };
+document.body.addEventListener('click', tracker.listeners.click);
 
 //////////////////////
 // CREATE THE BOARD //
@@ -571,3 +572,9 @@ for(var i = 0; i < 6400; i++) {
 document.querySelector('input[name="direction"]').checked = true;
 
 saveLayout();
+
+
+var x = Object.keys(tracker.listeners);
+x.map(function(z) {
+  console.log(z);
+});
