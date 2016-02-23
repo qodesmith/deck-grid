@@ -18,45 +18,43 @@ function saveLayout() { // http://goo.gl/DwUxmp
 
     return textFile;
   }
-
-  var save = document.querySelector('#save-button');
-
-  save.addEventListener('click', function() {
-    // Store all length pieces.
-    var lengthsObj = {lengths: []};
-    var lengths = document.querySelectorAll('.length');
-    for(var j = 0; j < lengths.length; j++) {
-      lengthsObj.lengths.push(lengths[j].outerHTML);
-    }
-
-    // Store all objects.
-    var objectsObj = {objects: []};
-    var objects = document.querySelectorAll('.object');
-    for(var k = 0; k < objects.length; k++) {
-      objectsObj.objects.push(objects[k].outerHTML);
-    }
-
-    // Clean up the 'tracker.squares' array.
-    var tempArray = [];
-    for(var i = 0; i < tracker.squares.length; i++) {
-      if(tracker.squares[i] !== null) tempArray.push(tracker.squares[i]);
-    }
-
-    tempArray.push(lengthsObj);
-    tempArray.push(objectsObj);
-
-    // Contents of the file.
-    var layout = JSON.stringify(tempArray);
-
-    // Hide the save button.
-    save.style.display = 'none';
-
-    // Show the download button
-    var link = document.querySelector('#download-link');
-    link.href = makeTextFile(layout);
-    link.style.display = 'block';
-  }, false);
 }
+document.querySelector('#save-button').addEventListener('click', saveClick, false);
+function saveClick() {
+  // Store all length pieces.
+  var lengthsObj = {lengths: []};
+  var lengths = document.querySelectorAll('.length');
+  for(var j = 0; j < lengths.length; j++) {
+    lengthsObj.lengths.push(lengths[j].outerHTML);
+  }
+
+  // Store all objects.
+  var objectsObj = {objects: []};
+  var objects = document.querySelectorAll('.object');
+  for(var k = 0; k < objects.length; k++) {
+    objectsObj.objects.push(objects[k].outerHTML);
+  }
+
+  // Clean up the 'tracker.squares' array.
+  var tempArray = [];
+  for(var i = 0; i < tracker.squares.length; i++) {
+    if(tracker.squares[i] !== null) tempArray.push(tracker.squares[i]);
+  }
+
+  tempArray.push(lengthsObj);
+  tempArray.push(objectsObj);
+
+  // Contents of the file.
+  var layout = JSON.stringify(tempArray);
+
+  // Hide the save button.
+  save.style.display = 'none';
+
+  // Show the download button
+  var link = document.querySelector('#download-link');
+  link.href = makeTextFile(layout);
+  link.style.display = 'block';
+};
 
 // Process individual squares.
 function processSquare(el) {
@@ -162,7 +160,8 @@ function clearBoard() {
 
 // Alt & Enter keys.
 // Hold down the alt / option key, and click 2 points on the board.
-document.addEventListener('keydown', function(e) {
+document.body.addEventListener('keydown', keydown);
+function keydown(e) {
   if(e.which === 18) alt.key = true;
 
   // Enter key for create modals.
@@ -173,15 +172,17 @@ document.addEventListener('keydown', function(e) {
       document.querySelector('#create-len').click();
     }
   }
-});
+};
 
-document.addEventListener('keyup', function(e) {
+document.body.addEventListener('keyup', keyup);
+function keyup(e) {
   alt.pieces.length = 0; // Clear the alt-tracked pieces.
   if(e.which === 18) alt.key = false;
-});
+};
 
 // Mouse-move for length & object pieces.
-document.addEventListener('mousemove', function(e) {
+document.body.addEventListener('mousemove', mousemove);
+function mousemove(e) {
   if(tracker.lengthMoving) {
     var el = tracker.movingEl;
   } else if(tracker.objectMoving) {
@@ -191,10 +192,11 @@ document.addEventListener('mousemove', function(e) {
   // Must use 'pageX' & 'pageY' to account for screen scrolling.
   el.style.top = e.pageY + 'px';
   el.style.left = e.pageX + 'px';
-});
+};
 
 // Import file.
-document.addEventListener('change', function(e) {
+document.body.addEventListener('change', change);
+function change(e) {
   if(e.target.id !== 'import') return;
 
   var input = e.target;
@@ -217,10 +219,11 @@ document.addEventListener('change', function(e) {
   } else if(file) {
     error.innerText = 'Text files only please.';
   }
-});
+};
 
 // Clicks.
-document.addEventListener('click', function(e) {
+document.body.addEventListener('click', click);
+function click(e) {
   // LEGEND ITEMS
   if(e.target.classList.contains('legend-item')) {
     // If there's a current legend item, remove its class.
@@ -487,7 +490,7 @@ document.addEventListener('click', function(e) {
   }
 
   e.stopPropagation();
-});
+};
 
 window.onload = function() {
 
