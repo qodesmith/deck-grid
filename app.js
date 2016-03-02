@@ -240,20 +240,20 @@ tracker.listeners.click = function(e) {
 
     // Open SAVE modal.
     if(e.target.id === 'save-layout') {
-      document.querySelector('.save-layout-modal-bg').style.display = 'initial';
+      document.querySelector('#save-modal').style.display = 'initial';
       document.querySelector('#view-JSON').value = JSON.stringify(tracker.squares);
 
     // Open LOAD modal.
     } else if(e.target.id === 'load-layout') {
-      document.querySelector('.load-layout-modal-bg').style.display = 'initial';
+      document.querySelector('#load-modal').style.display = 'initial';
 
     // Open CREATE-LENGTH modal.
     } else if(e.target.id === 'create-length') {
-      document.querySelector('.create-length-modal-bg').style.display = 'initial';
+      document.querySelector('#create-length-modal').style.display = 'initial';
 
     // Open CREATE-OBJ modal.
     } else if(e.target.id === 'create-object') {
-      document.querySelector('.create-obj-modal-bg').style.display = 'initial';
+      document.querySelector('#create-obj-modal').style.display = 'initial';
     }
 
   // SQUARE
@@ -340,37 +340,43 @@ tracker.listeners.click = function(e) {
       }
     }
 
-  // Close SAVE modal.
-  } else if(e.target.classList.contains('save-layout-modal-close')) {
-    document.querySelector('.save-layout-modal-bg').style.display = 'none';
+  // MODAL CLOSE
+  } else if(e.target.classList.contains('modal-close')) {
+    var modal = e.target.parentElement.parentElement;
 
-    // Reset the save button & download link.
-    document.querySelector('#save-button').style.display = 'block';
-    document.querySelector('#download-link').style.display = 'none';
+    // Close SAVE modal.
+    if(modal.id === 'save-modal') {
+      modal.style.display = 'none';
 
-  // Close LOAD modal.
-  } else if(e.target.classList.contains('load-layout-modal-close')) {
-    document.querySelector('.load-layout-modal-bg').style.display = 'none';
-    document.querySelector('#paste-JSON').value = '';
-    document.querySelector('#import').value = ''; // Invisible file-input.
+      // Reset the save button & download link.
+      document.querySelector('#save-button').style.display = 'block';
+      document.querySelector('#download-link').style.display = 'none';
 
-  // Close LENGTH modal.
-  } else if(e.target.classList.contains('create-length-modal-close')) {
-    // Clear all values.
-    document.querySelector('#length-feet').value = '';
-    document.querySelector('#length-inches').value = '';
-    document.querySelector('#error').innerText = '';
-    document.querySelector('input[name="direction"]').checked = true;
-    document.querySelector('.create-length-modal-bg').style.display = 'none';
+    // Close LOAD modal.
+    } else if(modal.id === 'load-modal') {
+      modal.style.display = 'none';
 
-  // Close OBJECT modal.
-  } else if(e.target.classList.contains('create-obj-modal-close')) {
-    // Clear all values.
-    document.querySelector('#obj-length-feet').value = '';
-    document.querySelector('#obj-length-inches').value = '';
-    document.querySelector('#obj-width-feet').value = '';
-    document.querySelector('#obj-width-inches').value = '';
-    document.querySelector('.create-obj-modal-bg').style.display = 'none';
+      document.querySelector('#paste-JSON').value = '';
+      document.querySelector('#import').value = ''; // Invisible file-input.
+
+    // Close LENGTH modal.
+    } else if(modal.id === 'create-length-modal') {
+      // Clear all values.
+      document.querySelector('#length-feet').value = '';
+      document.querySelector('#length-inches').value = '';
+      document.querySelector('#error').innerText = '';
+      document.querySelector('input[name="direction"]').checked = true;
+      modal.style.display = 'none';
+
+    // Close OBJECT modal.
+    } else if(modal.id === 'create-obj-modal') {
+      // Clear all values.
+      document.querySelector('#obj-length-feet').value = '';
+      document.querySelector('#obj-length-inches').value = '';
+      document.querySelector('#obj-width-feet').value = '';
+      document.querySelector('#obj-width-inches').value = '';
+      modal.style.display = 'none';
+    }
 
   // Import-button
   } else if(e.target.id === 'import-button') {

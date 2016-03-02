@@ -28,9 +28,9 @@
   </div>
 
   <!-- SAVE -->
-  <div class="save-layout-modal-bg">
-    <div class="save-layout-modal">
-      <div class="save-layout-modal-close">&times;</div>
+  <div class="modal" id="save-modal">
+    <div class="modal-content">
+      <div class="modal-close">&times;</div>
       <h2>Save layout to a text file</h2>
       <textarea name="" id="view-JSON" cols="60" rows="8"></textarea>
       <button id="save-button">SAVE</button>
@@ -39,9 +39,9 @@
   </div>
 
   <!-- LOAD -->
-  <div class="load-layout-modal-bg">
-    <div class="load-layout-modal">
-      <div class="load-layout-modal-close">&times;</div>
+  <div class="modal" id="load-modal">
+    <div class="modal-content">
+      <div class="modal-close">&times;</div>
       <textarea name="" id="paste-JSON" cols="70" rows="12"></textarea>
       <button id="import-button">IMPORT FILE</button>
       <input type="file" id="import"></input>
@@ -51,9 +51,9 @@
   </div>
 
   <!-- CREATE LENGTH -->
-  <div class="create-length-modal-bg">
-    <div class="create-length-modal">
-      <div class="create-length-modal-close">&times;</div>
+  <div class="modal" id="create-length-modal">
+    <div class="modal-content">
+      <div class="modal-close">&times;</div>
       <h2>Length in feet:</h2>
       <input type="number" id="length-feet">
       <h2>Length in inches:</h2>
@@ -69,9 +69,9 @@
   </div>
 
   <!-- CREATE OBJECT -->
-  <div class="create-obj-modal-bg">
-    <div class="create-obj-modal">
-      <div class="create-obj-modal-close">&times;</div>
+  <div class="modal" id="create-obj-modal">
+    <div class="modal-content">
+      <div class="modal-close">&times;</div>
       <h2>Length feet: <input type="number" id="obj-length-feet"></h2>
       <h2>Length inches: <input type="number" id="obj-length-inches"></h2>
       <h2>Width feet: <input type="number" id="obj-width-feet"></h2>
