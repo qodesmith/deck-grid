@@ -50,7 +50,7 @@ function saveLayout() { // http://goo.gl/DwUxmp
     var layout = JSON.stringify(tempArray);
 
     // Hide the save button.
-    save.style.display = 'none';
+    e.target.style.display = 'none';
 
     // Show the download button
     var link = document.querySelector('#download-link');
@@ -98,6 +98,10 @@ function drawDeck(array) {
 
   for(var i = 0; i < array.length; i++) {
     var item = array[i];
+
+    // Deal with null objects;
+    if(item === null) continue;
+
     // If we hit the 'lengths' item array, draw them all on the board.
     if(item.lengths) {
       for(var j = 0; j < item.lengths.length; j++) {
@@ -157,6 +161,35 @@ function clearBoard() {
   tracker.squares.length = 0;
 }
 
+// Placement of lengths & objects.
+function placement(el, e) {
+  var height = window.innerHeight;
+  var width = window.innerWidth;
+  var vUnit = width / 100;
+  var itemHeight = el.offsetWidth;
+  var itemWidth = el.offsetHeight;
+
+  // Must use 'pageX' & 'pageY' to account for screen scrolling.
+  var top = e.pageY / vUnit;
+  var left = e.pageX / vUnit;
+
+  el.style.top = top + 'vw';
+  el.style.left = left + 'vw';
+
+  // Translate on these are 50%, 50%.
+}
+
+// Cleanup: remove all event listeners.
+function removeListeners() {
+  for(var i in tracker.listeners) {
+    if(i === 'saveClick') {
+      document.body.removeEventListener('click', tracker.listeners[i]);
+    } else {
+      document.body.removeEventListener(i, tracker.listeners[i]);
+    }
+  }
+}
+
 
 /////////////////////
 // EVENT LISTENERS //
@@ -192,9 +225,7 @@ tracker.listeners.mousemove = function(e) {
     var el = tracker.movingObj;
   } else return;
 
-  // Must use 'pageX' & 'pageY' to account for screen scrolling.
-  el.style.top = e.pageY + 'px';
-  el.style.left = e.pageX + 'px';
+  placement(el, e);
 };
 document.body.addEventListener('mousemove', tracker.listeners.mousemove);
 
@@ -227,8 +258,14 @@ document.body.addEventListener('change', tracker.listeners.change);
 
 // Clicks.
 tracker.listeners.click = function(e) {
+  // Before anything, check if we're currently moving a piece.
+  if(tracker.lengthMoving || tracker.objectMoving) {
+    tracker.movingEl = ''
+    tracker.lengthMoving = false;
+    tracker.objectMoving = false;
+
   // LEGEND ITEMS
-  if(e.target.classList.contains('legend-item')) {
+  } else if(e.target.classList.contains('legend-item')) {
     // If there's a current legend item, remove its class.
     if(tracker.legend) {
       tracker.legend.classList.remove('current-item');
@@ -390,7 +427,7 @@ tracker.listeners.click = function(e) {
     if(textarea === '') return e.stopPropagation();
 
     var text = JSON.parse(textarea.value);
-    document.querySelector('.load-layout-modal-bg').style.display = 'none';
+    document.querySelector('#load-modal').style.display = 'none';
 
     clearBoard();
     drawDeck(text);
@@ -411,18 +448,20 @@ tracker.listeners.click = function(e) {
     } else if(inches > 11 || inches < 0) {
       return error.innerText = "Inches must be between 0 and 11.";
     } else {
-      // squares are 16px l & w.
+      // squares are 1vw l & w.
 
-      var totalF = 3 * 16 * feet;
-      var totalI = 4 * inches;
+      var totalF = 3 * feet;
+      var totalI = .25 * inches;
       var div = document.createElement('div');
 
       if(radioValue === 'vertical') div.classList.add('vertical');
       div.classList.add('length');
-      div.style.width = totalF + totalI + 'px';
+      div.style.width = totalF + totalI + 'vw';
       div.innerText = feet + '\' ' + inches + '"';
+      div.style.top = '2vw';
+      div.style.left = '50%';
 
-      document.querySelector('body').appendChild(div);
+      document.querySelector('.grid').appendChild(div);
     }
 
     // Clear all values.
@@ -430,7 +469,7 @@ tracker.listeners.click = function(e) {
     document.querySelector('#length-inches').value = '';
     document.querySelector('#error').innerText = '';
 
-    document.querySelector('.create-length-modal-bg').style.display = 'none';
+    document.querySelector('#create-length-modal').style.display = 'none';
 
   // Create-button (object).
   } else if(e.target.id === 'create-obj') {
@@ -455,11 +494,13 @@ tracker.listeners.click = function(e) {
     div.appendChild(span1);
     div.appendChild(span2);
 
-    div.style.width = ((16 * 3) * feetLength) + (4 * inchesLength) + 'px';
-    div.style.height = ((16 * 3) * feetWidth) + (4 * inchesWidth) + 'px';
+    div.style.width = (3 * feetLength) + (.25 * inchesLength) + 'vw';
+    div.style.height = (3 * feetWidth) + (.25 * inchesWidth) + 'vw';
+    div.style.top = '2vw';
+    div.style.left = '50%';
 
-    document.querySelector('body').appendChild(div);
-    document.querySelector('.create-obj-modal-bg').style.display = 'none';
+    document.querySelector('.grid').appendChild(div);
+    document.querySelector('#create-obj-modal').style.display = 'none';
 
     // Clear all values.
     document.querySelector('#obj-length-feet').value = '';

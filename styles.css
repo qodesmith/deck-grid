@@ -1,7 +1,9 @@
 body {
+  margin: 0;
   font-family: sans-serif;
 }
 .grid {
+  position: relative;
   width: 80vw;
   height: 80vw;
   display: -webkit-flex;
@@ -229,6 +231,10 @@ body {
   box-shadow: -3px 3px 5px rgba(0, 0, 0, 0.5);
   font-size: 20px;
   font-weight: bold;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 #create-length-modal h2 {
   margin: 10px 0;
