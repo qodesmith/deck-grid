@@ -55,7 +55,7 @@ function saveLayout() { // http://goo.gl/DwUxmp
     // Show the download button
     var link = document.querySelector('#download-link');
     link.href = makeTextFile(layout);
-    link.style.display = 'block';
+    link.style.display = 'inline-block';
   };
   document.body.addEventListener('click', tracker.listeners.saveClick, false);
 }
@@ -188,7 +188,10 @@ function removeListeners() {
       document.body.removeEventListener(i, tracker.listeners[i]);
     }
   }
+
+  document.body.removeEventListener('killDeckGrid', removeListeners);
 }
+document.body.addEventListener('killDeckGrid', removeListeners);
 
 
 /////////////////////
