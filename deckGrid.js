@@ -163,11 +163,8 @@ function clearBoard() {
 
 // Placement of lengths & objects.
 function placement(el, e) {
-  var height = window.innerHeight;
   var width = window.innerWidth;
   var vUnit = width / 100;
-  var itemHeight = el.offsetWidth;
-  var itemWidth = el.offsetHeight;
 
   // Must use 'pageX' & 'pageY' to account for screen scrolling.
   var top = e.pageY / vUnit;
