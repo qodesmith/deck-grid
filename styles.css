@@ -15,8 +15,6 @@ body {
   -webkit-flex-wrap: wrap;
       -ms-flex-wrap: wrap;
           flex-wrap: wrap;
-  border-left: 1px solid turquoise;
-  border-top: 1px solid turquoise;
   cursor: pointer;
 }
 .square {
